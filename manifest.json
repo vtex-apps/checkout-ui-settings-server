@@ -1,0 +1,22 @@
+{
+  "name": "checkout-ui-settings-server",
+  "vendor": "vtex",
+  "version": "0.0.0",
+  "title": "Checkout UI Settings Server",
+  "description": "Server custom settings for checkout UI to portal",
+  "builders": {
+    "node": "6.x",
+    "docs": "0.x",
+    "configuration": "0.x"
+  },
+  "scripts": {
+    "prereleasy": "bash lint.sh"
+  },
+  "credentialType": "absolute",
+  "policies": [
+    {
+      "name": "colossus-write-logs"
+    }
+  ],
+  "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
+}

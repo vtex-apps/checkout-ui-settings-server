@@ -1,0 +1,41 @@
+{
+  "type": "object",
+  "properties": {
+    "checkout-confirmation-custom.css": {
+      "type": "string",
+      "examples": [
+        ""
+      ]
+    },
+    "checkout-confirmation-custom.js": {
+      "type": "string",
+      "examples": [
+        ""
+      ]
+    },
+    "checkout5-custom.css": {
+      "type": "string",
+      "examples": [
+        ""
+      ]
+    },
+    "checkout5-custom.js": {
+      "type": "string",
+      "examples": [
+        ""
+      ]
+    },
+    "checkout6-custom.css": {
+      "type": "string",
+      "examples": [
+        ""
+      ]
+    },
+    "checkout6-custom.js": {
+      "type": "string",
+      "examples": [
+        ""
+      ]
+    }
+  }
+}
