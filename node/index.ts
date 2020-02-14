@@ -1,4 +1,4 @@
-import { IOClients, LRUCache, ParamsContext, RecorderState, Service, ServiceContext, method } from '@vtex/api'
+import { IOClients, LRUCache, method, ParamsContext, RecorderState, Service, ServiceContext } from '@vtex/api'
 
 import { getSettingsFromContext } from './middlewares/settings'
 
