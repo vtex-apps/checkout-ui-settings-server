@@ -5,9 +5,9 @@
   "minReplicas": 2,
   "maxReplicas": 4,
   "routes": {
-    "checkoutSettings": {
-      "path": "/filesteste/:file",
-      "private": true,
+    "files": {
+      "path": "/files",
+      "extensible": true,
       "settingsType": "workspace",
       "smartcache": true
     }

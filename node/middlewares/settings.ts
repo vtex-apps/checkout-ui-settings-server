@@ -1,19 +1,21 @@
-import { removeVersionFromAppId, UserInputError } from '@vtex/api'
+import { removeVersionFromAppId } from '@vtex/api'
 
 import { LINKED } from '../constants'
 
+function parseFileFromURL(url: string) {
+  return url.split('/')[2]
+}
+
 export async function getSettingsFromContext(ctx: Context, next: () => Promise<any>) {
   const {
-    vtex: {
-      route: { params },
-    },
+    request: { url },
   } = ctx
-  const { file } = params
+  const file = parseFileFromURL(url)
 
-  console.log({'Route: ': ctx.vtex.route})
+  console.log({ctx, url, file})
 
   if (!file || !(typeof file === 'string')) {
-    throw new UserInputError('File is required and should be a string.')
+    throw new Error('Error parsing settings file from URL.')
   }
 
   const settingsObject = ctx.vtex.settings ? ctx.vtex.settings[0] : null
