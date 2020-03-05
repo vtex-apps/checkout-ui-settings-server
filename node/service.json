@@ -10,6 +10,11 @@
       "extensible": true,
       "settingsType": "workspace",
       "smartcache": true
+    },
+    "enabled": {
+      "path": "/_v/enabled",
+      "public": false,
+      "smartcache": true
     }
   }
 }
