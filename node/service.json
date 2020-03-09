@@ -10,6 +10,11 @@
       "extensible": true,
       "settingsType": "workspace",
       "smartcache": true
+    },
+    "enabled": {
+      "path": "/_v/checkoutcustom/enabled",
+      "public": true,
+      "smartcache": true
     }
   }
 }
