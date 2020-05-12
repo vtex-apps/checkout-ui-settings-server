@@ -30,7 +30,9 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
   }
 
   const cacheType = LINKED ? 'no-cache' : 'public, max-age=60'
+  const fileType = file.split('.').pop() === 'css' ? 'text/css' : 'text/javascript'
   ctx.set('cache-control', cacheType)
+  ctx.set('content-type', fileType)
   ctx.status = 200
   ctx.body = settingFile
 
