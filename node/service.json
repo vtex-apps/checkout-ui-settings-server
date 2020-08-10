@@ -6,8 +6,8 @@
   "maxReplicas": 4,
   "routes": {
     "files": {
-      "path": "/files",
-      "extensible": true,
+      "path": "/files/:file",
+      "public": true,
       "settingsType": "workspace",
       "smartcache": true
     },
