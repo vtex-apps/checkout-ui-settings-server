@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- Added a new layer to the current implementation to make it compatible with the app `vtex.checkout-custom`
+
 ## [0.2.1] - 2020-05-12
 ### Fixed
 - Content type in assets
