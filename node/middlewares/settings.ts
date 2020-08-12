@@ -9,6 +9,7 @@ function parseFileFromURL(url: string) {
 }
 
 const DATA_ENTITY = 'checkoutcustom'
+const CACHE = 60
 
 export async function getSettingsFromContext(ctx: Context, next: () => Promise<any>) {
   const {
@@ -17,39 +18,42 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
     vtex: { workspace },
   } = ctx
 
-  console.log('>>>> getSettingsFromContext <<<<', workspace)
   const file = parseFileFromURL(url)
 
   if (!file || !(typeof file === 'string')) {
     throw new Error('Error parsing settings file from URL.')
   }
+  const fileType = file.split('.').pop() === 'css' ? 'text/css' : 'text/javascript'
 
-  const schemas = await hub.getSchemas().then((res: any) => res.data)
-
-  console.log('Schemas =>', schemas)
-
-  let mdFiles:any = []
+  let mdFiles: any = []
   let settingFile = null
-  if (schemas && schemas.length) {
-    mdFiles = await masterdata.searchDocuments({
-      dataEntity: DATA_ENTITY,
-      fields: ['id', 'email', 'workspace', 'creationDate', 'appVersion'],
-      sort: 'creationDate DESC',
-      schema: schemas[0].name,
-      where: `workspace=${workspace}`,
-      pagination: {
-        page: 1,
-        pageSize: 1,
-      },
-    })
-    if (mdFiles.length) {
-      settingFile = mdFiles[0][file]
-    }
 
-    console.log('Data =>', mdFiles)
+  try {
+    const schemas = await hub.getSchemas().then((res: any) => res.data)
+    const field = fileType === 'text/css' ? 'cssBuild' : 'javascriptBuild'
+    if (schemas && schemas.length) {
+      mdFiles = await masterdata.searchDocuments({
+        dataEntity: DATA_ENTITY,
+        fields: [field],
+        sort: 'creationDate DESC',
+        schema: schemas.sort(function (a: any, b: any) {
+          return a.name > b.name ? -1 : 1
+        })[0].name,
+        where: `workspace=${workspace}`,
+        pagination: {
+          page: 1,
+          pageSize: 1,
+        },
+      })
+      if (mdFiles && mdFiles.length) {
+        settingFile = mdFiles[0][field]
+      }
+    }
+  } catch (e) {
+    throw new Error(`Error getting ${file} from MD.`)
   }
 
-  if (mdFiles.length === 0) {
+  if (!mdFiles || mdFiles.length === 0) {
     const settingsObject = ctx.vtex.settings ? ctx.vtex.settings[0] : null
 
     if (!settingsObject) {
@@ -64,11 +68,8 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
     }
   }
 
-  // const cacheType = LINKED ? 'no-cache' : 'public, max-age=60'
-  console.log('LINKED', LINKED)
-  console.log('File', file)
-  const cacheType = 'no-cache, no-store'
-  const fileType = file.split('.').pop() === 'css' ? 'text/css' : 'text/javascript'
+  const cacheType = LINKED ? 'no-cache' : 'public, max-age=' + (workspace !== 'master' ? 10 : CACHE)
+
   ctx.set('cache-control', cacheType)
   ctx.set('content-type', fileType)
   ctx.status = 200

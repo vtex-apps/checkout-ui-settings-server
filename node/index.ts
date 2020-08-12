@@ -4,7 +4,7 @@ import { enabledService } from './middlewares/enabled'
 import { getSettingsFromContext } from './middlewares/settings'
 import { Clients } from './clients'
 
-const memoryCache = new LRUCache<string, any>({max: 10})
+const memoryCache = new LRUCache<string, any>({ max: 10 })
 metrics.trackCache('checkoutSettings', memoryCache)
 const TIMEOUT_MS = 800
 
@@ -29,20 +29,14 @@ const clients: ClientsConfig<Clients> = {
   },
 }
 
-console.log('>>>>>>> Server running...')
-
 export default new Service<Clients, RecorderState, ParamsContext>({
   clients,
   routes: {
     enabled: method({
-      GET: [
-        enabledService,
-      ],
+      GET: [enabledService],
     }),
     files: method({
-      GET: [
-        getSettingsFromContext,
-      ],
+      GET: [getSettingsFromContext],
     }),
   },
 })
