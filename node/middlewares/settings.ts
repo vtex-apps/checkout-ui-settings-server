@@ -38,9 +38,6 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
 
   if (settingsDeclarer !== 'vtex.checkout-custom') {
     settingFile = allSettingsFromDeclarer[file]
-    if (!settingFile) {
-      throw new Error(`Error getting setting ${file} from context.`)
-    }
   } else {
     try {
       const schemas = await masterdata.getSchemas().then((res: any) => res.data)
@@ -70,6 +67,10 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
     } catch (e) {
       throw new Error(`Error getting ${file} from MD.`)
     }
+  }
+
+  if (!settingFile) {
+    throw new Error(`Error getting setting ${file} from context.`)
   }
 
   const cacheType = LINKED ? 'no-cache' : 'public, max-age=' + (production ? CACHE : 10)
