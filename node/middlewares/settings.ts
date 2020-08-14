@@ -13,7 +13,7 @@ const CACHE = 60
 
 export async function getSettingsFromContext(ctx: Context, next: () => Promise<any>) {
   const {
-    clients: { masterdata, hub },
+    clients: { masterdata },
     request: { url },
     vtex: { workspace },
   } = ctx
@@ -28,41 +28,43 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
   let mdFiles: any = []
   let settingFile = null
 
-  try {
-    const schemas = await hub.getSchemas().then((res: any) => res.data)
-    const field = fileType === 'text/css' ? 'cssBuild' : 'javascriptBuild'
-    if (schemas && schemas.length) {
-      mdFiles = await masterdata.searchDocuments({
-        dataEntity: DATA_ENTITY,
-        fields: [field],
-        sort: 'creationDate DESC',
-        schema: schemas.sort(function (a: any, b: any) {
-          return a.name > b.name ? -1 : 1
-        })[0].name,
-        where: `workspace=${workspace}`,
-        pagination: {
-          page: 1,
-          pageSize: 1,
-        },
-      })
-      if (mdFiles && mdFiles.length) {
-        settingFile = mdFiles[0][field]
+  const settingsObject = ctx.vtex.settings ? ctx.vtex.settings[0] : null
+
+  if (!settingsObject) {
+    throw new Error(`Error getting settings from context when asking for file ${file}.`)
+  }
+  const settingsDeclarer = removeVersionFromAppId(settingsObject.declarer)
+  const allSettingsFromDeclarer = settingsObject[settingsDeclarer]
+
+  if(settingsDeclarer === 'vtex.checkout-custom') {
+    try {
+      const schemas = await masterdata.getSchemas().then((res: any) => res.data)
+      const field = fileType === 'text/css' ? 'cssBuild' : 'javascriptBuild'
+      if (schemas && schemas.length) {
+        mdFiles = await masterdata.searchDocuments({
+          dataEntity: DATA_ENTITY,
+          fields: [field],
+          sort: 'creationDate DESC',
+          schema: schemas.sort(function (a: any, b: any) {
+            return a.name > b.name ? -1 : 1
+          })[0].name,
+          where: `workspace=${workspace}`,
+          pagination: {
+            page: 1,
+            pageSize: 1,
+          },
+        })
+        if (mdFiles && mdFiles.length) {
+          settingFile = mdFiles[0][field]
+        }
       }
+    } catch (e) {
+      throw new Error(`Error getting ${file} from MD.`)
     }
-  } catch (e) {
-    throw new Error(`Error getting ${file} from MD.`)
   }
 
-  if (!mdFiles || mdFiles.length === 0) {
-    const settingsObject = ctx.vtex.settings ? ctx.vtex.settings[0] : null
-
-    if (!settingsObject) {
-      throw new Error(`Error getting settings from context when asking for file ${file}.`)
-    }
-    const settingsDeclarer = removeVersionFromAppId(settingsObject.declarer)
-
-    const allSettingsFromDeclarer = settingsObject[settingsDeclarer]
-    const settingFile = allSettingsFromDeclarer[file]
+  if (!settingFile) {
+    settingFile = allSettingsFromDeclarer[file]
     if (!settingFile) {
       throw new Error(`Error getting setting ${file} from context.`)
     }
