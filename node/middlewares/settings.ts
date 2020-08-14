@@ -15,7 +15,7 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
   const {
     clients: { masterdata },
     request: { url },
-    vtex: { workspace },
+    vtex: { workspace, production },
   } = ctx
 
   const file = parseFileFromURL(url)
@@ -36,10 +36,16 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
   const settingsDeclarer = removeVersionFromAppId(settingsObject.declarer)
   const allSettingsFromDeclarer = settingsObject[settingsDeclarer]
 
-  if(settingsDeclarer === 'vtex.checkout-custom') {
+  if (settingsDeclarer !== 'vtex.checkout-custom') {
+    settingFile = allSettingsFromDeclarer[file]
+    if (!settingFile) {
+      throw new Error(`Error getting setting ${file} from context.`)
+    }
+  } else {
     try {
       const schemas = await masterdata.getSchemas().then((res: any) => res.data)
       const field = fileType === 'text/css' ? 'cssBuild' : 'javascriptBuild'
+
       if (schemas && schemas.length) {
         mdFiles = await masterdata.searchDocuments({
           dataEntity: DATA_ENTITY,
@@ -54,8 +60,11 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
             pageSize: 1,
           },
         })
+
         if (mdFiles && mdFiles.length) {
           settingFile = mdFiles[0][field]
+        } else {
+          settingFile = allSettingsFromDeclarer[file]
         }
       }
     } catch (e) {
@@ -63,14 +72,7 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
     }
   }
 
-  if (!settingFile) {
-    settingFile = allSettingsFromDeclarer[file]
-    if (!settingFile) {
-      throw new Error(`Error getting setting ${file} from context.`)
-    }
-  }
-
-  const cacheType = LINKED ? 'no-cache' : 'public, max-age=' + (workspace !== 'master' ? 10 : CACHE)
+  const cacheType = LINKED ? 'no-cache' : 'public, max-age=' + (production ? CACHE : 10)
 
   ctx.set('cache-control', cacheType)
   ctx.set('content-type', fileType)
