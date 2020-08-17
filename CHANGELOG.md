@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.3.0] - 2020-08-17
+
 ### Added
 - Added a new layer to the current implementation to make it compatible with the app `vtex.checkout-custom`
 
