@@ -36,7 +36,7 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
   const settingsDeclarer = removeVersionFromAppId(settingsObject.declarer)
   const allSettingsFromDeclarer = settingsObject[settingsDeclarer]
 
-  if (settingsDeclarer !== 'vtex.checkout-custom') {
+  if (settingsDeclarer !== 'vtex.checkout-ui-custom') {
     settingFile = allSettingsFromDeclarer[file]
   } else {
     try {
