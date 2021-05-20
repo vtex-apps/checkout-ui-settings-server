@@ -43,6 +43,7 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
     const allSettingsFromDeclarer = settingsObject[settingsDeclarer]
 
     if (settingsDeclarer !== 'vtex.checkout-ui-custom') {
+      settingFile += "\r\n/* source: <" + settingsDeclarer + "> */\r\n"
       settingFile += allSettingsFromDeclarer[file]
     } else {
       try {
@@ -65,8 +66,10 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
           })
 
           if (mdFiles && mdFiles.length) {
+            settingFile += "\r\n/* source: <" + settingsDeclarer + "> */\r\n"
             settingFile += mdFiles[0][field]
           } else {
+            settingFile += "\r\n/* source: <" + settingsDeclarer + "> */\r\n"
             settingFile += allSettingsFromDeclarer[file]
           }
         }
