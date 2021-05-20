@@ -26,15 +26,15 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
   const fileType = file.split('.').pop() === 'css' ? 'text/css' : 'text/javascript'
 
   let mdFiles: any = []
-  let settingFile = "";
+  let settingFile = ''
 
   if (!ctx.vtex.settings) {
     throw new Error(`Error getting settings from context when asking for file ${file}.`)
   }
 
-  for(var i = 0; i<ctx.vtex.settings.length;i++) {
+  for(let i = 0; i<ctx.vtex.settings.length;i++) {
 
-    const settingsObject = ctx.vtex.settings[i] ? ctx.vtex.settings[i]: null;
+    const settingsObject = ctx.vtex.settings[i] ? ctx.vtex.settings[i]: null
 
     if (!settingsObject) {
       throw new Error(`Error getting settings from context when asking for file ${file}.`)

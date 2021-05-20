@@ -1,8 +1,8 @@
-import { method, ParamsContext, RecorderState, Service, ServiceContext, ClientsConfig } from '@vtex/api'
+import { ClientsConfig, method, ParamsContext, RecorderState, Service, ServiceContext } from '@vtex/api'
 
+import { Clients } from './clients'
 import { enabledService } from './middlewares/enabled'
 import { getSettingsFromContext } from './middlewares/settings'
-import { Clients } from './clients'
 
 const TIMEOUT_MS = 800
 
@@ -16,7 +16,7 @@ const clients: ClientsConfig<Clients> = {
     masterdata: {
       retries: 2,
       timeout: TIMEOUT_MS,
-    }
+    },
   },
 }
 
