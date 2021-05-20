@@ -26,46 +26,53 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
   const fileType = file.split('.').pop() === 'css' ? 'text/css' : 'text/javascript'
 
   let mdFiles: any = []
-  let settingFile = null
+  let settingFile = "";
 
-  const settingsObject = ctx.vtex.settings ? ctx.vtex.settings[0] : null
-
-  if (!settingsObject) {
+  if (!ctx.vtex.settings) {
     throw new Error(`Error getting settings from context when asking for file ${file}.`)
   }
-  const settingsDeclarer = removeVersionFromAppId(settingsObject.declarer)
-  const allSettingsFromDeclarer = settingsObject[settingsDeclarer]
 
-  if (settingsDeclarer !== 'vtex.checkout-ui-custom') {
-    settingFile = allSettingsFromDeclarer[file]
-  } else {
-    try {
-      const schemas = await masterdata.getSchemas().then((res: any) => res.data)
-      const field = fileType === 'text/css' ? 'cssBuild' : 'javascriptBuild'
+  for(var i = 0; i<ctx.vtex.settings.length;i++) {
 
-      if (schemas && schemas.length) {
-        mdFiles = await masterdata.searchDocuments({
-          dataEntity: DATA_ENTITY,
-          fields: [field],
-          sort: 'creationDate DESC',
-          schema: schemas.sort(function (a: any, b: any) {
-            return a.name > b.name ? -1 : 1
-          })[0].name,
-          where: `workspace=${workspace}`,
-          pagination: {
-            page: 1,
-            pageSize: 1,
-          },
-        })
+    const settingsObject = ctx.vtex.settings[i] ? ctx.vtex.settings[i]: null;
 
-        if (mdFiles && mdFiles.length) {
-          settingFile = mdFiles[0][field]
-        } else {
-          settingFile = allSettingsFromDeclarer[file]
+    if (!settingsObject) {
+      throw new Error(`Error getting settings from context when asking for file ${file}.`)
+    }
+    const settingsDeclarer = removeVersionFromAppId(settingsObject.declarer)
+    const allSettingsFromDeclarer = settingsObject[settingsDeclarer]
+
+    if (settingsDeclarer !== 'vtex.checkout-ui-custom') {
+      settingFile += allSettingsFromDeclarer[file]
+    } else {
+      try {
+        const schemas = await masterdata.getSchemas().then((res: any) => res.data)
+        const field = fileType === 'text/css' ? 'cssBuild' : 'javascriptBuild'
+
+        if (schemas && schemas.length) {
+          mdFiles = await masterdata.searchDocuments({
+            dataEntity: DATA_ENTITY,
+            fields: [field],
+            sort: 'creationDate DESC',
+            schema: schemas.sort(function (a: any, b: any) {
+              return a.name > b.name ? -1 : 1
+            })[0].name,
+            where: `workspace=${workspace}`,
+            pagination: {
+              page: 1,
+              pageSize: 1,
+            },
+          })
+
+          if (mdFiles && mdFiles.length) {
+            settingFile += mdFiles[0][field]
+          } else {
+            settingFile += allSettingsFromDeclarer[file]
+          }
         }
+      } catch (e) {
+        throw new Error(`Error getting ${file} from MD.`)
       }
-    } catch (e) {
-      throw new Error(`Error getting ${file} from MD.`)
     }
   }
 
