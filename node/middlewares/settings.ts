@@ -44,7 +44,9 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
 
     if (settingsDeclarer !== 'vtex.checkout-ui-custom') {
       settingFile += "\r\n/* source: <" + settingsDeclarer + "> */\r\n"
-      settingFile += allSettingsFromDeclarer[file]
+      if (allSettingsFromDeclarer[file] != undefined) {
+        settingFile += allSettingsFromDeclarer[file]
+      }
     } else {
       try {
         const schemas = await masterdata.getSchemas().then((res: any) => res.data)
@@ -70,7 +72,9 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
             settingFile += mdFiles[0][field]
           } else {
             settingFile += "\r\n/* source: <" + settingsDeclarer + "> */\r\n"
-            settingFile += allSettingsFromDeclarer[file]
+            if (allSettingsFromDeclarer[file] != undefined) {
+              settingFile += allSettingsFromDeclarer[file]
+            }
           }
         }
       } catch (e) {
