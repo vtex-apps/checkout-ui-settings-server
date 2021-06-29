@@ -15,6 +15,10 @@
       "path": "/_v/checkoutcustom/enabled",
       "public": true,
       "smartcache": true
+    },
+    "savevb": {
+      "path": "/_v/checkout-ui-custom/savevb",
+      "public": false
     }
   }
 }

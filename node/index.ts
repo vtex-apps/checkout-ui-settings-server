@@ -2,6 +2,7 @@ import { method, ParamsContext, RecorderState, Service, ServiceContext, ClientsC
 
 import { enabledService } from './middlewares/enabled'
 import { getSettingsFromContext } from './middlewares/settings'
+import { saveVB } from './middlewares/savevb'
 import { Clients } from './clients'
 
 const TIMEOUT_MS = 800
@@ -28,6 +29,9 @@ export default new Service<Clients, RecorderState, ParamsContext>({
     }),
     files: method({
       GET: [getSettingsFromContext],
+    }),
+    savevb: method({
+      POST: [saveVB],
     }),
   },
 })

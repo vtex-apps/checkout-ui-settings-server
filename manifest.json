@@ -18,6 +18,9 @@
       "name": "colossus-write-logs"
     },
     {
+      "name": "vbase-read-write"
+    },
+    {
       "name": "ADMIN_DS"
     },
     {

@@ -7,13 +7,15 @@ function parseFileFromURL(url: string) {
   const maybeFile = maybeFileWithQuery.split('?')[0]
   return maybeFile
 }
+const parseBuffer = (buffer: Buffer) => buffer.toString()
+
 
 const DATA_ENTITY = 'checkoutcustom'
 const CACHE = 60
 
 export async function getSettingsFromContext(ctx: Context, next: () => Promise<any>) {
   const {
-    clients: { masterdata },
+    clients: { masterdata, vbase },
     request: { url },
     vtex: { workspace, production },
   } = ctx
@@ -40,32 +42,42 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
     settingFile = allSettingsFromDeclarer[file]
   } else {
     try {
-      const schemas = await masterdata.getSchemas().then((res: any) => res.data)
       const field = fileType === 'text/css' ? 'cssBuild' : 'javascriptBuild'
 
-      if (schemas && schemas.length) {
-        mdFiles = await masterdata.searchDocuments({
-          dataEntity: DATA_ENTITY,
-          fields: [field],
-          sort: 'creationDate DESC',
-          schema: schemas.sort(function (a: any, b: any) {
-            return a.name > b.name ? -1 : 1
-          })[0].name,
-          where: `workspace=${workspace}`,
-          pagination: {
-            page: 1,
-            pageSize: 1,
-          },
-        })
+      const vbFile = await vbase.getFile('checkoutuicustom', `${workspace}-${field}`)
+        .then((res: any) => {return res.data})
+        .catch(() => null)
 
-        if (mdFiles && mdFiles.length) {
-          settingFile = mdFiles[0][field]
-        } else {
-          settingFile = allSettingsFromDeclarer[file]
+      if (vbFile) {
+        settingFile = parseBuffer(vbFile)
+      }
+
+      if (!settingFile) {
+        const schemas = await masterdata.getSchemas().then((res: any) => res.data)
+        if (schemas && schemas.length) {
+          mdFiles = await masterdata.searchDocuments({
+            dataEntity: DATA_ENTITY,
+            fields: [field],
+            sort: 'creationDate DESC',
+            schema: schemas.sort(function (a: any, b: any) {
+              return a.name > b.name ? -1 : 1
+            })[0].name,
+            where: `workspace=${workspace}`,
+            pagination: {
+              page: 1,
+              pageSize: 1,
+            },
+          })
+
+          if (mdFiles && mdFiles.length) {
+            settingFile = mdFiles[0][field]
+          } else {
+            settingFile = allSettingsFromDeclarer[file]
+          }
         }
       }
     } catch (e) {
-      throw new Error(`Error getting ${file} from MD.`)
+      throw new Error(`Error getting ${file} from MD or VB.`)
     }
   }
 
