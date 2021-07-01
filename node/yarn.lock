@@ -1000,6 +1000,14 @@
     "@types/connect" "*"
     "@types/node" "*"
 
+"@types/co-body@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@types/co-body/-/co-body-5.1.0.tgz#69c505dd759d619a8c78b1a88222e63014c9f417"
+  integrity sha512-iRL97yYTJNGFv495U63ikKG9r60thDtQ403jEzBEFR4IY6kMxw2IfcPoxI8+HY3nRNLrwHFYuCnWGEB/0hFVwg==
+  dependencies:
+    "@types/node" "*"
+    "@types/qs" "*"
+
 "@types/connect@*":
   version "3.4.32"
   resolved "https://registry.yarnpkg.com/@types/connect/-/connect-3.4.32.tgz#aa0e9616b9435ccad02bc52b5b454ffc2c70ba28"
@@ -1144,6 +1152,11 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.2.tgz#0e58ae66773d7fd7c372a493aff740878ec9ceaa"
   integrity sha512-f8JzJNWVhKtc9dg/dyDNfliTKNOJSLa7Oht/ElZdF/UbMUmAH3rLmAk3ODNjw0mZajDEgatA03tRjB4+Dp/tzA==
 
+"@types/qs@*":
+  version "6.9.6"
+  resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.9.6.tgz#df9c3c8b31a247ec315e6996566be3171df4b3b1"
+  integrity sha512-0/HnwIfW4ki2D8L8c9GVcG5I72s9jP5GSLVF0VIXDW00kmIpA6O33G7a8n59Tmh7Nz0WUC3rSb7PTY/sdW2JzA==
+
 "@types/range-parser@*":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.2.tgz#fa8e1ad1d474688a757140c91de6dace6f4abc8d"
@@ -1212,14 +1225,14 @@
   resolved "https://registry.yarnpkg.com/@types/zen-observable/-/zen-observable-0.8.0.tgz#8b63ab7f1aa5321248aad5ac890a485656dcea4d"
   integrity sha512-te5lMAWii1uEJ4FwLjzdlbw3+n0FZNOvFXHxQDKeT0dilh7HOzdMzV2TrJVUzq8ep7J4Na8OUYPRLSQkJHAlrg==
 
-"@vtex/api@6.36.1":
-  version "6.36.1"
-  resolved "https://registry.yarnpkg.com/@vtex/api/-/api-6.36.1.tgz#7de05462227cb9619e93fb38767ae9adb906ead2"
-  integrity sha512-DwULwOhK8BULNmZFAZXFIK1u+YvGkbl8zPt2f3DkXXI0PSnWPUkTVt1fANgYbeOtiepGNA+ibssCAGUFHFy0zg==
+"@vtex/api@6.43.0":
+  version "6.43.0"
+  resolved "https://registry.yarnpkg.com/@vtex/api/-/api-6.43.0.tgz#f84ce6dcfcc96e3be5d6917437e21b66a1a7d267"
+  integrity sha512-NF2+x7XFE9D31oUb3U2i9UIZtakUKGAZKfRPYwdSpMQZits4wpL4jBcnjwX7Bufl9lZx3GfnLm0LabLI7vjAOw==
   dependencies:
     "@types/koa" "^2.11.0"
     "@types/koa-compose" "^3.2.3"
-    "@vtex/node-error-report" "^0.0.2"
+    "@vtex/node-error-report" "^0.0.3"
     "@wry/equality" "^0.1.9"
     agentkeepalive "^4.0.2"
     apollo-server-errors "^2.2.1"
@@ -1254,13 +1267,14 @@
     semver "^5.5.1"
     stats-lite vtex/node-stats-lite#dist
     tar-fs "^2.0.0"
+    tokenbucket "^0.3.2"
     uuid "^3.3.3"
     xss "^1.0.6"
 
-"@vtex/node-error-report@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@vtex/node-error-report/-/node-error-report-0.0.2.tgz#edf15095d6bb543d28b46f86bc109e6214149dfe"
-  integrity sha512-Q6V8E1IR/U0H6uTB1G+gH4ugL4Kw1l/WsK7W46LQBsxv4ISlZcO7dXPlWrL4RzRcVam5yzGAwNkv2wJdW61tAA==
+"@vtex/node-error-report@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@vtex/node-error-report/-/node-error-report-0.0.3.tgz#365a2652aeebbd6b51ddc5d64c3c0bc1a326dc71"
+  integrity sha512-HhBworWQfSs6PU3yroloc7H2/pWboDIzgdiJ6SYc3mJVRU5/bXtwM9HGPkAGZvAb/0cMwFC963SYYKvOfeSjbA==
   dependencies:
     is-stream "^2.0.0"
 
@@ -1750,6 +1764,11 @@ bl@^3.0.0:
   dependencies:
     readable-stream "^3.0.1"
 
+bluebird@2.9.24:
+  version "2.9.24"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-2.9.24.tgz#14a2e75f0548323dc35aa440d92007ca154e967c"
+  integrity sha1-FKLnXwVIMj3DWqRA2SAHyhVOlnw=
+
 bluebird@^3.5.4:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
@@ -1977,6 +1996,16 @@ co-body@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/co-body/-/co-body-6.0.0.tgz#965b9337d7f5655480787471f4237664820827e3"
   integrity sha512-9ZIcixguuuKIptnY8yemEOuhb71L/lLf+Rl5JfJEUiDNJk0e02MBt7BPxR2GEh5mw8dPthQYR4jPI/BnS1MQgw==
+  dependencies:
+    inflation "^2.0.0"
+    qs "^6.5.2"
+    raw-body "^2.3.3"
+    type-is "^1.6.16"
+
+co-body@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/co-body/-/co-body-6.1.0.tgz#d87a8efc3564f9bfe3aced8ef5cd04c7a8766547"
+  integrity sha512-m7pOT6CdLN7FuXUcpuz/8lfQ/L77x8SchHCF4G0RBTJO20Wzmhn5Sp4/5WsKy8OSpifBSUrmg83qEqaDHdyFuQ==
   dependencies:
     inflation "^2.0.0"
     qs "^6.5.2"
@@ -4844,6 +4873,11 @@ redent@^3.0.0:
     indent-string "^4.0.0"
     strip-indent "^3.0.0"
 
+redis@^0.12.1:
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/redis/-/redis-0.12.1.tgz#64df76ad0fc8acebaebd2a0645e8a48fac49185e"
+  integrity sha1-ZN92rQ/IrOuuvSoGReikj6xJGF4=
+
 regenerate-unicode-properties@^8.1.0:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/regenerate-unicode-properties/-/regenerate-unicode-properties-8.1.0.tgz#ef51e0f0ea4ad424b77bf7cb41f3e015c70a3f0e"
@@ -5274,7 +5308,7 @@ static-extend@^0.1.1:
     define-property "^0.2.5"
     object-copy "^0.1.0"
 
-"stats-lite@github:vtex/node-stats-lite#dist":
+stats-lite@vtex/node-stats-lite#dist:
   version "2.2.0"
   resolved "https://codeload.github.com/vtex/node-stats-lite/tar.gz/1b0d39cc41ef7aaecfd541191f877887a2044797"
   dependencies:
@@ -5536,6 +5570,14 @@ toidentifier@1.0.0:
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
 
+tokenbucket@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/tokenbucket/-/tokenbucket-0.3.2.tgz#8172b2b58e3083acc8d914426fed15162a3a8e90"
+  integrity sha1-gXKytY4wg6zI2RRCb+0VFio6jpA=
+  dependencies:
+    bluebird "2.9.24"
+    redis "^0.12.1"
+
 tough-cookie@^2.3.3, tough-cookie@^2.3.4:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/tough-cookie/-/tough-cookie-2.5.0.tgz#cd9fb2a0aa1d5a12b473bd9fb96fa3dcff65ade2"
@@ -5665,10 +5707,10 @@ type-is@^1.6.16:
     media-typer "0.3.0"
     mime-types "~2.1.18"
 
-typescript@3.8.3:
-  version "3.8.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.8.3.tgz#409eb8544ea0335711205869ec458ab109ee1061"
-  integrity sha512-MYlEfn5VrLNsgudQTVJeNaQFUAI7DkhnOjdpAp4T+ku1TfQClewlbSuTVHiA+8skNBgaf02TL/kLOvig4y3G8w==
+typescript@3.9.7:
+  version "3.9.7"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.7.tgz#98d600a5ebdc38f40cb277522f12dc800e9e25fa"
+  integrity sha512-BLbiRkiBzAwsjut4x/dsibSTB6yWpwT5qWmC2OfuCg3GgVQCSgMs4vEctYPhsaGtd0AeuuHMkjZ2h2WG8MSzRw==
 
 typescript@^3.3.3333:
   version "3.6.3"

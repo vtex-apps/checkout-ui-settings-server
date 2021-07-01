@@ -1,0 +1,15 @@
+[
+  {
+    "name": "save-build",
+    "description": "Save checkout build",
+    "statements": [
+      {
+        "actions": ["post"],
+        "effect": "allow",
+        "resources": [
+          "vrn:vtex.checkout-ui-settings-server:{{region}}:{{account}}:{{workspace}}:/_v/checkout-ui-custom/savevb"
+        ]
+      }
+    ]
+  }
+]

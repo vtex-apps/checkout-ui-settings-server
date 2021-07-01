@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+- When using `checkout-ui-custom`, it will first look for files on **VBase**, **Masterdata** is now a fallback
 ## [0.3.1] - 2020-08-18
 
 ### Changed
