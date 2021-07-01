@@ -17,7 +17,7 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
   const {
     clients: { masterdata, vbase },
     request: { url },
-    vtex: { workspace, production },
+    vtex: { workspace, production, logger },
   } = ctx
 
   const file = parseFileFromURL(url)
@@ -46,7 +46,10 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
 
       const vbFile = await vbase.getFile('checkoutuicustom', `${workspace}-${field}`)
         .then((res: any) => {return res.data})
-        .catch(() => null)
+        .catch(() => {
+          logger.error({message: `Error retrieving VBase file ${workspace}-${field}`})
+          return null
+        })
 
       if (vbFile) {
         settingFile = parseBuffer(vbFile)
