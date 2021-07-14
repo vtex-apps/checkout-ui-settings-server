@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+- Error when there's no files published to the workspace
 ## [0.4.0] - 2021-07-01
 
 ### Changed

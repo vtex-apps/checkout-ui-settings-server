@@ -87,7 +87,7 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
   }
 
   if (!settingFile) {
-    throw new Error(`Error getting setting ${file} from context.`)
+    settingFile = allSettingsFromDeclarer[file]
   }
 
   const cacheType = LINKED ? 'no-cache' : 'public, max-age=' + (production ? CACHE : 10)
