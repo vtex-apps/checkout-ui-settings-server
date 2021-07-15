@@ -35,12 +35,12 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
   if (!settingsObject) {
     throw new Error(`Error getting settings from context when asking for file ${file}.`)
   }
+
   const settingsDeclarer = removeVersionFromAppId(settingsObject.declarer)
   const allSettingsFromDeclarer = settingsObject[settingsDeclarer]
+  settingFile = allSettingsFromDeclarer[file]
 
-  if (settingsDeclarer !== 'vtex.checkout-ui-custom') {
-    settingFile = allSettingsFromDeclarer[file]
-  } else {
+  if (settingsDeclarer === 'vtex.checkout-ui-custom') {
     try {
       const field = fileType === 'text/css' ? 'cssBuild' : 'javascriptBuild'
 
@@ -57,7 +57,7 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
         settingFile = parseBuffer(vbFile)
       }
 
-      if (!settingFile) {
+      if (!vbFile) {
         const schemas = await masterdata.getSchemas().then((res: any) => res.data)
         if (schemas && schemas.length) {
           mdFiles = await masterdata.searchDocuments({
@@ -73,11 +73,8 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
               pageSize: 1,
             },
           })
-
           if (mdFiles && mdFiles.length) {
             settingFile = mdFiles[0][field]
-          } else {
-            settingFile = allSettingsFromDeclarer[file]
           }
         }
       }
@@ -87,7 +84,7 @@ export async function getSettingsFromContext(ctx: Context, next: () => Promise<a
   }
 
   if (!settingFile) {
-    settingFile = allSettingsFromDeclarer[file]
+    throw new Error(`Error getting setting ${file} from context.`)
   }
 
   const cacheType = LINKED ? 'no-cache' : 'public, max-age=' + (production ? CACHE : 10)
